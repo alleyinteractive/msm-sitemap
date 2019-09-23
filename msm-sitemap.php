@@ -680,6 +680,15 @@ class Metro_Sitemap {
 		$sitemaps = array_unique( $sitemaps );
 
 		$xml = new SimpleXMLElement( $xml_prefix . '<sitemapindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>' );
+
+		/**
+		 * This filter provide flexibility for the users to add additional xml information to the root sitemap.
+		 *
+		 * @param object $xml
+		 *
+		 * @return $xml
+		 */
+		$xml = apply_filters( 'msm_sitemap_pre_build_root_xml', $xml );
 		foreach ( $sitemaps as $sitemap_date ) {
 			$sitemap = $xml->addChild( 'sitemap' );
 			$sitemap->loc = self::build_sitemap_url( $sitemap_date ); // manually set the child instead of addChild to prevent "unterminated entity reference" warnings due to encoded ampersands http://stackoverflow.com/a/555039/169478
